@@ -42,6 +42,7 @@ class ProcessWorker(Thread):
             image_local_path = '{}/{}'.format(data_dir, image_filename)
 
             try:
+                print('Download: {}'.format(image_filename))
                 download_image(image_url, image_local_path)
             except Exception as e:
                 logger.exception(

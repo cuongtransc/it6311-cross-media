@@ -62,8 +62,10 @@ def test(opts=None):
     print "-----------------------Stats-----------------------------"
     cc = 0
     for i in xrange(TEST_SIZE):
-        if label_ins[i] == labels_pre[i][0]:
-            cc += 1
+        for lb in labels_pre[i][0]:
+            if label_ins[i] == lb :
+                cc += 1
+                break
     print "Acc image query: %.5f%% "%(cc*100.0/TEST_SIZE)
 
 
@@ -71,8 +73,12 @@ def test(opts=None):
     image_pres = cca_model.get_best_match_cross_indices_y2x(distinct_labels)
     ctag = 0
     for i in xrange(NUM_TAGS):
-        if label_ids[image_pres[i][0]] == i:
-            ctag += 1
+        #if label_ids[image_pres[i][0]] == i:
+        #    ctag += 1
+        for jj in image_pres[i][0]:
+            lb = label_ids[jj]
+            if lb == i:
+                ctag += 1
     print "Acc text query : %.5f%% "%(ctag*100.0/NUM_TAGS)
 
 

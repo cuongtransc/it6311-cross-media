@@ -5,6 +5,7 @@ class CCA_Model:
     def __init__(self,n_components):
         self.n_components = n_components
         self.cca = CCA(n_components=n_components)
+        self.ntop  = 10
 
 
     def learn_model(self,X_chanel, Y_chanel,Y_Distinct=None):
@@ -34,7 +35,9 @@ class CCA_Model:
         for i in xrange(shape[0]):
             scores[i] = np.dot(self.Y_transform[i],x_transform)
             #scores[i] = entropy(x_transform,self.Y_transform[i])
-        return [np.argmax(scores), np.max(scores)]
+
+        indices = (-scores).argsort()[:self.ntop]
+        return [indices, scores[indices]]
 
 
     def get_bet_match_index_transform_y2x(self,y_transform):
@@ -43,7 +46,9 @@ class CCA_Model:
         for i in xrange(shape[0]):
             scores[i] = np.dot(self.X_transform[i], y_transform)
             #scores[i] = entropy(y_transform,self.X_transform[i])
-        return [np.argmax(scores), np.max(scores)]
+        indices = (-scores).argsort()[:self.ntop]
+
+        return [indices, scores[indices]]
 
     def get_best_match_cross_indices_x2y(self,x_inputs):
         x_transformes = self.cca.transform(x_inputs)

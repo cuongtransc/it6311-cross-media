@@ -5,7 +5,8 @@ from __future__ import print_function
 
 import tensorflow as tf
 import component
-import data
+import fakedata
+import  loaddata
 import const
 
 import time
@@ -32,6 +33,7 @@ def fill_train_feed_dict(fake_data, images_pl, texts_pl, true_images_pl, true_te
     datas = fake_data.next_minibatch(FLAGS.batch_size)
     imgs,txts = datas[0]
     true_imgs,true_txts = datas[1]
+    #print ("SHAPE: ",true_imgs.shape,true_txts.shape)
     feed_dict = {
         images_pl: imgs,
         texts_pl: txts,
@@ -90,7 +92,8 @@ def do_get_txt_representive(sess,encoder,texts_data,imgs_pl,txts_pl):
 
 def run_training():
   with tf.Graph().as_default():
-    fake_data = data.FakeData()
+    #fake_data = fakedata.FakeData()
+    fake_data = loaddata.TrueData(const.PATH_FEATURES,const.PATH_LABELS)
 
     images_placeholder, texts_placesholder , true_images_placeholder, true_texts_placesholder= placeholder_inputs(
         FLAGS.batch_size * 3)
@@ -156,6 +159,7 @@ def run_training():
 
       if (step + 1) % 1000 == 0 or (step + 1) == FLAGS.max_steps:
         checkpoint_file = os.path.join(FLAGS.log_dir, 'model.ckpt')
+        print ("Saving...")
         saver.save(sess, checkpoint_file, global_step=step)
 
 def main(_):
@@ -171,7 +175,7 @@ if __name__ == '__main__':
   parser.add_argument(
       '--max_steps',
       type=int,
-      default=2000,
+      default=10000,
       help='Number of steps to run trainer.'
   )
   parser.add_argument(
@@ -204,6 +208,12 @@ if __name__ == '__main__':
       type=str,
       default=os.path.join(os.getenv('TEST_TMPDIR', '/tmp'),
                            'tensorflow/mnist/logs/fully_connected_feed'),
+      help='Directory to put the log data.'
+  )
+  parser.add_argument(
+      '--save_dir',
+      type=str,
+      default="save",
       help='Directory to put the log data.'
   )
   parser.add_argument(

@@ -110,7 +110,7 @@ def compute_scores(sources,des):
         sources, des, transpose_b=True)
 
 
-def eval(scores,matching_labels,true_labels):
+def eval(scores,matching_labels,true_labels,is_write_to_file=False,is_text_2_img=False):
     #print (scores.shape)
     #print (matching_labels.shape)
     #print (true_labels.shape)
@@ -121,5 +121,27 @@ def eval(scores,matching_labels,true_labels):
         for index in indices:
             if matching_labels[index] == true_labels[i]:
                 correct += 1
+
+                if is_write_to_file==True:
+                    if is_text_2_img and const.STOP_T2I < 2:
+                        f = open("true_text_2_img.dat","a")
+
+                        f.write("%s\n"%(i+1))
+                        for jj in indices:
+                            f.write("%s "%jj)
+                        f.write("\n")
+                        f.close()
+                        const.STOP_T2I += 1
+                    elif not is_text_2_img and  const.STOP_I2T < 2:
+                        f = open("true_img_2_text.dat", "a")
+
+                        f.write("%s\n" % (i+1))
+                        for jj in indices:
+                            f.write("%s " % jj)
+                        f.write("\n")
+                        f.close()
+                        const.STOP_I2T += 1
+
+
                 break
     return correct

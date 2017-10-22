@@ -23,6 +23,7 @@ class TrueData():
         list_features = []
         list_labels = []
         list_labelids = []
+        list_lineids = []
 
 
         while True:
@@ -51,6 +52,8 @@ class TrueData():
             feature_vec = np.fromstring(line_feature, dtype=float, sep=" ")
             #print feature_vec.shape
 
+            list_lineids.append(n_current)
+
             list_features.append(feature_vec)
             list_labels.append(label_vec)
             list_labelids.append(label_id)
@@ -65,11 +68,13 @@ class TrueData():
         self.all_images = np.asarray(list_features)
         self.all_labels = np.asarray(list_labels)
         self.all_labelids = np.array(list_labelids,dtype=int)
+        self.all_lineids =np.asarray(list_lineids,dtype=int)
 
         print "All shape: ",self.all_images.shape,self.all_labels.shape,self.all_labelids.shape
 
 
         perm0 = np.arange(self._n_total)
+        print perm0
         np.random.shuffle(perm0)
 
         i_spliter = int(self._n_total * self._rate)
@@ -77,6 +82,20 @@ class TrueData():
 
         train_indices = perm0[:i_spliter]
         test_indices = perm0[i_spliter:]
+
+        lineid_test= self.all_lineids[test_indices]
+
+        lineid_train = self.all_lineids[train_indices]
+
+        flineid = open("line_ids_testi.dat","w")
+        for idc in lineid_test:
+            flineid.write("%s\n"%idc)
+        flineid.close()
+
+        ftrainid =open("line_ids_traini.dat","w")
+        for idc in lineid_train:
+            ftrainid.write("%s\n"%idc)
+        ftrainid.close()
 
 
 

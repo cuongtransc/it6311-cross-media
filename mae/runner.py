@@ -56,7 +56,7 @@ def do_eval_img2txt(sess,encoder,images_data,text_representives,matching_labels,
     scores = component.compute_scores(img_representives,text_representives)
     scores = sess.run(scores)
     #scoring = sess.run(scores, feed_dict=test_feed_dict)
-    correct = component.eval(scores,matching_labels,true_labels)
+    correct = component.eval(scores,matching_labels,true_labels,True,False)
     print ("Acc Img to txt: %.4f"%(correct*1.0/images_data.shape[0]))
 
 
@@ -67,7 +67,7 @@ def do_eval_txt2img(sess,encoder,texts_data,image_representives,matching_labels,
     scores = component.compute_scores(txt_representives,image_representives)
     scores = sess.run(scores)
     #scoring = sess.run(scores)
-    correct = component.eval(scores,matching_labels,true_labels)
+    correct = component.eval(scores,matching_labels,true_labels,True,True)
     print ("Acc Txt to img: %.4f"%(correct*1.0/texts_data.shape[0]))
 
 def do_get_img_representive(sess,encoder,images_data,imgs_pl,txts_pl):
@@ -134,6 +134,7 @@ def run_training():
       duration = time.time() - start_time
 
       if step % 100 == 0:
+        const.ITER += 1
         print('Step %d: loss = %.2f (%.3f sec)' % (step, loss_value, duration))
         summary_str = sess.run(summary, feed_dict=feed_dict)
         summary_writer.add_summary(summary_str, step)
@@ -158,6 +159,7 @@ def run_training():
 
 
       if (step + 1) % 1000 == 0 or (step + 1) == FLAGS.max_steps:
+
         checkpoint_file = os.path.join(FLAGS.log_dir, 'model.ckpt')
         print ("Saving...")
         saver.save(sess, checkpoint_file, global_step=step)

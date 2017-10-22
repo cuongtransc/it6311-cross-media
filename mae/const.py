@@ -10,6 +10,10 @@ N_EXAMPLE = 28000
 N_TEST = 2000
 TOP_N = 10
 
+STOP_I2T = 0
+STOP_T2I = 0
+ITER = 0
+
 DATA_ROOT = "/home/nda/Workspace/Python/Tensor/it6311-cross-media/mae/NUS-WIDE-Lite-dataset"
 PATH_FEATURES = "%s/train_features.txt"%DATA_ROOT
 PATH_LABELS = "%s/train_labels.txt"%DATA_ROOT

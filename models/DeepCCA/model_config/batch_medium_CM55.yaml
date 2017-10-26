@@ -1,0 +1,18 @@
+# Image dims: 144
+# Text dims: 81
+DATA:
+  IMAGE_FEATURE_TRAIN_PATH: "NUS-WIDE-Lite/NUS-WIDE-Lite_features/Normalized_CM55_Lite_Train.dat"
+  IMAGE_FEATURE_TEST_PATH: "NUS-WIDE-Lite/NUS-WIDE-Lite_features/Normalized_CM55_Lite_Test.dat"
+  TAG_TRAIN_PATH: "NUS-WIDE-Lite/NUS-WIDE-Lite_tags/Lite_Tags81_Train.txt"
+  TAG_TEST_PATH: "NUS-WIDE-Lite/NUS-WIDE-Lite_tags/Lite_Tags81_Test.txt"
+  NUM_TAGS: 81
+MODEL:
+  OUTDIM_SIZE: 50
+  TOP_K: 1
+  layer_sizes1: [512,128,50]
+  layer_sizes2: [512,128,50]
+  learning_rate: 0.01
+  epoch_num: 50
+  batch_size: 512
+  reg_par: 0.000001
+  use_all_singular_values: False

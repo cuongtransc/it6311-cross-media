@@ -1,0 +1,15 @@
+DATA: {IMAGE_FEATURE_TEST_PATH: NUS-WIDE-Lite/NUS-WIDE-Lite_features/Normalized_WT_Lite_Test.dat,
+  IMAGE_FEATURE_TRAIN_PATH: NUS-WIDE-Lite/NUS-WIDE-Lite_features/Normalized_WT_Lite_Train.dat,
+  NUM_TAGS: 81, TAG_TEST_PATH: NUS-WIDE-Lite/NUS-WIDE-Lite_tags/Lite_Tags81_Test.txt,
+  TAG_TRAIN_PATH: NUS-WIDE-Lite/NUS-WIDE-Lite_tags/Lite_Tags81_Train.txt}
+MODEL:
+  OUTDIM_SIZE: 50
+  TOP_K: 1
+  batch_size: 512
+  epoch_num: 2
+  layer_sizes1: [2048, 1024, 1024, 50]
+  layer_sizes2: [2048, 1024, 1024, 50]
+  learning_rate: 0.01
+  reg_par: 1.0e-06
+  use_all_singular_values: false
+

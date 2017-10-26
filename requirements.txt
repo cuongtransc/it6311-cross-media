@@ -1,0 +1,5 @@
+pyyaml
+scipy
+keras
+numpy
+theano
